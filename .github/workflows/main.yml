@@ -1,0 +1,51 @@
+name: build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle 8.1.1
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.1.1
+
+      - name: Find project dir (where build.gradle is)
+        id: proj
+        shell: bash
+        run: |
+          set -e
+          dir="$(find . -maxdepth 5 -name build.gradle -not -path '*/buildSrc/*' -not -path '*/build/*' -print -quit)"
+          if [ -z "$dir" ]; then
+            echo "ERROR: build.gradle not found in repo."
+            exit 1
+          fi
+          dir="$(dirname "$dir")"
+          echo "Using project dir: $dir"
+          echo "dir=$dir" >> "$GITHUB_OUTPUT"
+
+      - name: Build (includes reobfJar)
+        shell: bash
+        run: |
+          set -e
+          cd "${{ steps.proj.outputs.dir }}"
+          gradle --no-daemon clean build
+
+      - name: Upload jars
+        uses: actions/upload-artifact@v4
+        with:
+          name: jars
+          path: |
+            ${{ steps.proj.outputs.dir }}/build/libs/*.jar
