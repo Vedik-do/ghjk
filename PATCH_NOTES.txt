@@ -1,0 +1,1 @@
+v8.1 build fix: client code referenced ModSounds.WROUGHTNAUT_BOSS (does not exist). Fixed to ModSounds.FERROUS_WROUGHTNAUT_BOSS.

@@ -1,0 +1,1 @@
+If you can see this file at repo root, you uploaded v8.2 correctly.

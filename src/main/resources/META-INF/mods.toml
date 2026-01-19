@@ -1,0 +1,23 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="mowziestrackscompat"
+version = "1.1.1"
+displayName="Mowzie's Tracks Compat"
+description='''Disables Mowzie's Mobs boss themes and plays your custom boss tracks instead (client-side).'''
+
+[[dependencies.mowziestrackscompat]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.mowziestrackscompat]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="CLIENT"
